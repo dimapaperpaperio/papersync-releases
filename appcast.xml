@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>PaperSync</title>
+    <item>
+      <title>Версия 0.1.1</title>
+      <pubDate>Fri, 30 Oct 2026 18:18:39 GMT</pubDate>
+      <sparkle:version>16</sparkle:version>
+      <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/dimapaperpaperio/papersync-releases/releases/download/v0.1.1/PaperSync-0.1.1.zip" length="13751709" type="application/octet-stream" sparkle:edSignature="8VNKEzC6Or9G1socb3mzRkYAzS2ta8XcHHfNxxsOP4wpgFFZhnArHPIzgUOhPL0pBNV3VrfMygRRAJLv9nulBw==" />
+    </item>
+  </channel>
+</rss>
