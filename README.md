@@ -12,7 +12,7 @@ PaperSync is a macOS menu bar app that records meetings and calls (Google Meet, 
 
 Requirements:
 - A Mac with Apple Silicon (M1 or later) and macOS 14.4 or later. Live transcript during a meeting requires macOS 26 or later.
-- An internet connection for the first processing run: PaperSync downloads speech recognition models (about 1.3 GB) and spends a few minutes preparing them. After that, no further downloads are needed.
+- An internet connection during setup: PaperSync downloads the speech recognition model (about 1.3 GB) on the last step of the setup assistant, and spends a few minutes preparing it on the first processing run. After that, no further downloads are needed.
 
 Updates install automatically: once a day the app checks for a new version and installs it. To check manually, open Settings… → Updates → Check Now….
 
@@ -33,12 +33,12 @@ Updates install automatically: once a day the app checks for a new version and i
   - **Notifications** — silence warnings, auto-stop, meeting prep, the weekly digest.
   - **Speech Recognition** — only for the live transcript (macOS 26+).
 
-  If a permission is denied, the assistant shows a button that opens the right section of System Settings. Check Sound records 3 seconds from the microphone and system audio and shows the levels.
+  If a permission is denied, the assistant shows a button that opens the right section of System Settings. Check Sound records 3 seconds from the microphone and system audio and shows the levels. Next runs this check first if system audio hasn't been checked yet, so the other participants are recorded on your first call; you can skip it with Skip Check.
 - **AI for summaries** (recommended; without it you get transcripts only):
 
   | Option | What you need |
   |---|---|
-  | Claude (subscription) — default | The Claude command-line tool or just the Claude desktop app (PaperSync uses its built-in Claude Code), and a sign-in: Sign In… in the assistant, or `claude /login` in Terminal |
+  | Claude (subscription) — default | The Claude command-line tool or just the Claude desktop app (PaperSync uses its built-in Claude Code, which appears after you open the Code tab in the Claude app once), and a sign-in: Sign In… in the assistant, or `claude /login` in Terminal |
   | ChatGPT (subscription) | The Codex command-line tool: `brew install codex`, then `codex login` |
   | Gemini (Google subscription) | Antigravity CLI (`agy`) and a sign-in to your Google account |
   | Anthropic API, OpenAI API, Gemini API, OpenRouter, DeepSeek, Qwen, Kimi, GLM, MiniMax | An API key for that service; you pay per request at its rates |
@@ -46,7 +46,9 @@ Updates install automatically: once a day the app checks for a new version and i
   | Custom address | Any OpenAI-compatible service: DeepSeek, Mistral, Groq, Azure OpenAI, a company gateway |
 
   If you already have a subscription, use it — there is nothing extra to pay. Each option shows where your data goes and whether it may be used for model training. API keys are stored in the macOS Keychain. You can switch options in Settings… → AI.
-- **Notion** (optional): create an internal integration at notion.so/profile/integrations, connect it to a page (page menu → Connections), paste the token into the assistant and click Create automatically — Meetings and Tasks databases will appear. Then click Check Connection and turn on Settings… → Integrations → Export meetings to Notion.
+- **Notion** (optional): create an internal integration at notion.so/profile/integrations, connect it to a page (page menu → Connections), paste the token into the assistant and click Create automatically — Meetings and Tasks databases will appear. Then click Check Connection. The assistant turns on Export meetings to Notion by itself.
+
+- **Last step** — choose whether PaperSync asks to record calendar meetings and calls outside the calendar, and watch the speech recognition model download.
 
 ## Features
 
@@ -63,6 +65,7 @@ Updates install automatically: once a day the app checks for a new version and i
 - **Back-to-back meetings.** If the next meeting with a call link is already under way when the recording stops, PaperSync switches to it. If it starts before the current one ends, you choose "+10 min", "Stop" or "Record the Next One".
 - **Manual recordings** are not stopped on schedule. When the meeting ends, PaperSync asks whether to stop ("The meeting has ended").
 - **Auto-stop.** A recording started from "Record this meeting?" or "Record this call?" also stops early by itself when nothing is using the microphone and there has been no sound for 2 minutes. For a recording you started manually, PaperSync asks "Stop recording?" after 2 minutes without a call or sound, and stops it a minute later if you don't answer.
+- **Echo cancellation** is off by default, because it changes how your microphone sounds. If you take calls without headphones and the other side's voices end up in your track, turn it on in Settings… → Recording.
 - **Silent recording.** If the microphone or system audio is silent after 30 seconds, you get a notification — usually a sign that a permission is missing.
 - **Several people at the mic.** If other people speak into your Mac's microphone (a meeting room, a colleague next to you, a conversation without a call), check Several people at the mic in the prompt or the recording menu. You stay "Me"; the others become separate speakers marked "at the mic". PaperSync can also detect this on its own: Settings… → Recording → Detect several people at the mic.
 - **Notes during a call** (F10) — a floating Notes window for short timestamped notes, saved immediately. The summary expands each note from the transcript and gives it extra weight in the summary and tasks.
@@ -78,7 +81,7 @@ Updates install automatically: once a day the app checks for a new version and i
 
 ### Speakers
 
-- **Naming participants.** Speakers start out numbered. In Recent Meetings → a meeting → Name Participants…, listen to short clips and type names; suggestions come from calendar attendees and known voices. The transcript, summary, tasks and Notion page are updated without running the AI again. If someone is marked "at the mic" but no one was next to you, the microphone probably picked up call audio from your speakers; headphones help.
+- **Naming participants.** Speakers start out as "Speaker 1", "Speaker 2" and so on (in the interface language). In Recent Meetings → a meeting → Name Participants…, listen to short clips and type names; suggestions come from calendar attendees and known voices. The transcript, summary, tasks and Notion page are updated without running the AI again. If someone is marked "at the mic" but no one was next to you, the microphone probably picked up call audio from your speakers; headphones help.
 - **Voice memory.** With "remember voice" checked, the name is filled in automatically at future meetings. The list of voices is in Settings… → Voices.
 - **Voices in old meetings.** Settings… → Voices → Find Voices in Old Meetings… re-analyzes meetings processed before voiceprints existed (the transcript doesn't change) and remembers named participants. For a single old meeting, use Capture Voiceprints in the naming window.
 
@@ -94,7 +97,7 @@ Updates install automatically: once a day the app checks for a new version and i
 
 ### Results
 
-- **Summary and tasks** are produced automatically after each meeting. Progress is shown in the menu under Processing.
+- **Summary and tasks** are produced automatically after each meeting. Progress is shown in the menu under Processing. When the summary is ready, a notification says how many tasks there are and how many are yours; click it to open the meeting, or the naming window if there are participants to name. Confidential meetings get no notification.
 - **My Tasks** — open tasks from all meetings, overdue first. All Tasks… opens a window with search and filters. With Notion enabled, the Done status syncs both ways.
 - **Follow-up** — Write Follow-Up… drafts an email to attendees: what was decided, who does what, open questions. Open in Mail only opens the draft; you send it.
 - **Weekly digest** — every Friday at 17:00: highlights, decisions, your tasks, tasks you're waiting on from others, open questions. Open it any time from menu → Weekly Digest…. Day and time are set in Settings… → General.
@@ -160,6 +163,9 @@ Change shortcuts in Settings… → General. On a MacBook, press the F-keys toge
 - **Goes to Notion** (if enabled): title, date, attendees, outcome, summary sections and tasks. Transcripts, audio and voices are not exported.
 - **Goes to Telegram, Slack or your webhook** (if enabled): title, date, participants, summary and tasks. Never the transcript, audio, notes or confidential meetings. Tasks sent to Reminders or Things go to those apps on your Mac.
 - **Goes to an AI assistant over MCP** (if enabled): whatever the assistant reads — summaries, tasks, transcripts — then goes to that assistant's AI service.
+- **Goes to the developer — crash reports** (Sentry, on by default): the stack trace, PaperSync and macOS versions, the Mac model and a short list of the app's recent steps. Error messages from the app's log are not sent, only a fixed error category. Never audio, texts, meeting titles, names, Notion links or tokens. Turn off in Settings… → Privacy → Send crash reports.
+- **Goes to the developer — anonymous usage statistics** (TelemetryDeck, on by default): which features are used, how recordings start and end, whether processing succeeds, PaperSync and macOS versions, system language and region, and how often the app is opened. Never audio, texts, meeting titles, names, email addresses, Notion links or calendar names. Turn off in Settings… → Privacy → Send anonymous usage statistics.
+- **Goes to the developer — problem reports**, only when you press Send in Report a Problem…: your comment, an optional email for a reply, and the diagnostics archive.
 
 Additional protection, mostly in Settings… → Privacy:
 
@@ -182,7 +188,7 @@ Calendar recordings stop at the scheduled end: click "+10 min" on "Meeting is en
 The microphone picked up call audio from your speakers. Headphones help.
 
 **The first processing run is slow.**
-The first time, PaperSync downloads about 1.3 GB of models and takes a few minutes to prepare them. This needs internet and happens only once.
+The first time, PaperSync prepares the speech recognition model, which takes a few minutes. If the model wasn't downloaded during setup (about 1.3 GB), it is downloaded then too. This happens only once.
 
 **No summary, error "Failed to authenticate".**
 Your Claude sign-in has expired (or, with only the Claude desktop app, you haven't signed in yet): click Sign In… in the setup assistant or run `claude /login`, then menu → Processing → Retry Processing. For ChatGPT, run `codex login`. For API keys, click Check in Settings… → AI.
@@ -197,6 +203,6 @@ Updates install automatically. To check now: Settings… → Updates → Check N
 On the next launch, the Processing menu offers to process interrupted recordings.
 
 **How do I report a problem?**
-Menu → Report a Problem…. PaperSync builds an archive with the version, settings (without keys), log and crash reports — no audio, text or names. You see the list of files before saving. Attach the archive to an [issue](https://github.com/dimapaperpaperio/papersync-releases/issues) in this repository.
+Menu → Report a Problem…. Describe what happened, optionally leave an email for a reply, and press Send: the report goes to the developer with a diagnostics archive (version, settings without keys, log and crash reports — no audio, text or names). You see the list of files before sending. You can also save the archive and attach it to an [issue](https://github.com/dimapaperpaperio/papersync-releases/issues) in this repository.
 
-Detailed help is built into the app: menu → Help.
+Detailed help is built into the app: menu → Help, or the ? button in the setup assistant and in Settings.
