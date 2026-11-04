@@ -3,6 +3,14 @@
   <channel>
     <title>PaperSync</title>
     <item>
+      <title>Версия 0.2.12</title>
+      <pubDate>Wed, 04 Nov 2026 17:40:39 GMT</pubDate>
+      <sparkle:version>144</sparkle:version>
+      <sparkle:shortVersionString>0.2.12</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/dimapaperpaperio/papersync-releases/releases/download/v0.2.12/PaperSync-0.2.12.zip" length="19750485" type="application/octet-stream" sparkle:edSignature="UxShM0KjvzP5+bgJsQ7CrQ+fUWyxLRez9XVtaR+PCr+FGYpWhhRrKpTmQ89kzmgtjzxLYSKHTlHa+fskt8beBQ==" />
+    </item>
+    <item>
       <title>Версия 0.2.11</title>
       <pubDate>Wed, 04 Nov 2026 10:08:00 GMT</pubDate>
       <sparkle:version>142</sparkle:version>
